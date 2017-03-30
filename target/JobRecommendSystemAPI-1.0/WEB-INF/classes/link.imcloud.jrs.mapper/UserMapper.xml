@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="link.imcloud.jrs.db.mapper.UserMapper">
+
+    <insert id="addUser" parameterType="link.imcloud.jrs.db.entities.TBUser">
+        insert into users
+        (account, password, nickname,phone,email,sex,area,age,photo)
+        values
+        (#{account},#{password},#{nickname}, #{phone},#{email},#{sex},#{area},#{age},#{photo})
+    </insert>
+    <update id="alterUser" parameterType="link.imcloud.jrs.db.entities.TBUser">
+        update users set
+            nickname=#{nickname},email=#{email},sex=#{sex},password=#{password},area=#{area},
+            age=#{age}, phone=#{phone},photo=#{photo} where account=#{account}
+    </update>
+
+    <select id="getUserByAccount" parameterType="java.lang.String" resultMap="userMap">
+        select * from  users where account=#{account}
+    </select>
+
+    <resultMap id="userMap" type="link.imcloud.jrs.db.entities.TBUser" >
+        <id property="account" column="account"/>
+        <result property="password" column="password" />
+        <result property="nickname" column="nickname"/>
+        <result property="phone" column="phone"/>
+        <result property="photo" column="photo"/>
+        <result property="email" column="email"/>
+        <result property="sex" column="sex"/>
+        <result property="area" column="area"/>
+        <result property="age" column="age"/>
+    </resultMap>
+
+</mapper>

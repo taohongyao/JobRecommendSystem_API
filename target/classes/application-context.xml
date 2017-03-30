@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 引入properties文件 -->
+    <context:property-placeholder location="classpath:/*.properties"/>
+    <import resource="mongodb-context.xml"/>
+
+    <bean id="DataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${jdbc.jrs.driverClassName}"/>
+        <property name="url" value="${jdbc.jrs.url}"/>
+        <property name="username" value="${jdbc.jrs.username}"/>
+        <property name="password" value="${jdbc.jrs.password}"/>
+        <!-- 数据库连接池保持的最小连接数 -->
+        <property name="minIdle" value="5"/>
+        <!-- 数据库连接池保持的最大连接数 -->
+        <property name="maxIdle" value="30"/>
+        <!--
+            当数据库连接因为某种原因断掉之后，再重新从连接池中拿另外一个连接时实际上这个连接可能
+            已经无效，所以为了确保所拿到的连接全都有效需要在获取连接，返回连接以及连接空闲时进行
+            有效性验证 下面3个设置为ture时进行验证，默认为false
+         -->
+        <!-- 取得连接时是否进行有效性验证 -->
+        <property name="testOnBorrow" value="true"/>
+        <!-- 返回连接时是否进行有效性验证 -->
+        <property name="testOnReturn" value="true"/>
+        <!-- 连接空闲时是否进行有效性验证 -->
+        <property name="testWhileIdle" value="true"/>
+    </bean>
+
+    <!-- 加载MyBatis的xml配置文件 -->
+    <bean id="SessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="DataSource"/>
+        <property name="mapperLocations" value="classpath:link.imcloud.jrs.mapper/*.xml" />
+    </bean>
+    <!-- 配置MyBatis -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="link.imcloud.jrs.db.mapper"/>
+        <property name="sqlSessionFactoryBeanName" value="SessionFactory" />
+    </bean>
+
+
+    <bean class="link.imcloud.jrs.services.SMSService" id="smsService" >
+        <property name="uid" value="${sms.username}"/>
+        <property name="key" value="${sms.key}" />
+        <property name="url" value="${sms.url}"/>
+    </bean>
+
+</beans>

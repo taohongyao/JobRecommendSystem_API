@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="link.imcloud.jrs.db.mapper.FacultyTestMapper">
+
+
+    <select id="getTestByType" parameterType="java.lang.Integer" resultMap="FacultyTestMap">
+        select * from  faculty_test where question_type=#{questionId}
+    </select>
+
+    <select id="getTestById" parameterType="java.lang.Integer" resultMap="FacultyTestMap">
+        select * from  faculty_test where question_id=#{questionType}
+    </select>
+
+
+    <resultMap id="FacultyTestMap" type="link.imcloud.jrs.db.entities.TBFacultyTest" >
+        <id property="questionId" column="question_id"/>
+        <result property="questionContext" column="question_context" />
+        <result property="selectionOne" column="selection_one" />
+        <result property="selectionTwo" column="selection_two" />
+        <result property="selectionThree" column="selection_three" />
+        <result property="selectionFour" column="selection_four" />
+        <result property="answer" column="answer" />
+        <result property="questionType" column="question_type" />
+    </resultMap>
+
+</mapper>

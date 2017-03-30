@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="link.imcloud.jrs.db.mapper.AreaMapper">
+
+
+    <select id="getAllArea"  resultMap="areaMap">
+        select * from  areas
+    </select>
+
+    <resultMap id="areaMap" type="link.imcloud.jrs.db.entities.TBArea" >
+        <id property="areaId" column="area_id"/>
+        <result property="areaName" column="area_name" />
+    </resultMap>
+
+</mapper>
