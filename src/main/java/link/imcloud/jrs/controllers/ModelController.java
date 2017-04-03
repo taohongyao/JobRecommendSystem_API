@@ -69,13 +69,33 @@ public class ModelController {
         return baseOBean;
     }
 
-    @RequestMapping(value = "/gettest.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/getmodle.do", method = RequestMethod.POST)
     @ResponseBody
-    public BaseOBean getTest(@RequestBody IBeanOperation iBeanOperation) throws SQLException {
+    public BaseOBean getModleScore(@RequestBody IBeanOperation iBeanOperation) throws SQLException {
         BaseOBean baseOBean =new BaseOBean();
 
         if(userService.checkUserToken(iBeanOperation)){
-            baseOBean.setContents(facultyTestService.generateTest());
+            baseOBean.setContents(facultyTestService.getModleScore(iBeanOperation.getAccount()));
+            baseOBean.setInfo("N01","获取系数成功");
+        }else {
+            baseOBean.setInfo("E01","请重新登陆");
+        }
+
+        return baseOBean;
+    }
+
+    @RequestMapping(value = "/gettest.do", method = RequestMethod.POST)
+    @ResponseBody
+    public BaseOBean getTest(@RequestBody FacultyTestIBean facultyTestIBean) throws SQLException {
+        BaseOBean baseOBean =new BaseOBean();
+
+        if(userService.checkUserToken(facultyTestIBean)){
+            // TODO: 2017/4/1 测试类型编号
+            if(facultyTestIBean.getTestType()==1){
+                baseOBean.setContents(facultyTestService.generateTest(1));
+            }else {
+                baseOBean.setContents(facultyTestService.generateTest(2));
+            }
             baseOBean.setInfo("N01","获取能力测试题成功");
         }else {
             baseOBean.setInfo("E01","请重新登陆");
@@ -89,13 +109,11 @@ public class ModelController {
     public BaseOBean putTest(@RequestBody FacultyTestIBean facultyTestIBean) throws SQLException {
         BaseOBean baseOBean =new BaseOBean();
         if(userService.checkUserToken(facultyTestIBean)){
-            List<Integer> olist=facultyTestService.computeScore(facultyTestIBean.getList(),facultyTestIBean.getAccount());
-            baseOBean.setContents(olist);
+            facultyTestService.computeScore(facultyTestIBean.getList(),facultyTestIBean.getAccount(),facultyTestIBean.getTestType());
             baseOBean.setInfo("N01","题目提交成功");
         }else {
             baseOBean.setInfo("E01","请重新登陆");
         }
-
         return baseOBean;
     }
 }

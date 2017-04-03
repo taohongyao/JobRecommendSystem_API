@@ -32,7 +32,6 @@ public class UserController {
     private UserService userService;
 
 
-
     @RequestMapping(value = "/sentsms.do", method = RequestMethod.POST)
     @ResponseBody
     public BaseOBean sentSMS(@RequestBody UserIBean userIBean) throws IOException, SQLException {
@@ -51,27 +50,34 @@ public class UserController {
     @ResponseBody
     public BaseOBean getUserInfo(@RequestBody IBeanOperation iBeanOperation) {
         BaseOBean baseOBean =new BaseOBean();
+        if(userService.checkUserToken(iBeanOperation)){
             UserOBean userOBean=userService.getUserInfo(iBeanOperation.getAccount());
-        if(userOBean!=null){
-            baseOBean.setInfo("N01","获取信息成功");
-            baseOBean.setContents(userOBean);
+            if(userOBean!=null){
+                baseOBean.setInfo("N01","获取信息成功");
+                baseOBean.setContents(userOBean);
+            }else {
+                baseOBean.setInfo("E01","用户不存在");
+            }
         }else {
-            baseOBean.setInfo("E01","用户不存在");
+            baseOBean.setInfo("E01","请重新登陆");
         }
         return baseOBean;
     }
 
-
-    @RequestMapping(value = "/getareas.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/getgeneralinfo.do", method = RequestMethod.POST)
     @ResponseBody
-    public BaseOBean getAllAreas(@RequestBody IBeanOperation iBeanOperation) {
+    public BaseOBean getGeneralInfo(@RequestBody IBeanOperation iBeanOperation) {
         BaseOBean baseOBean =new BaseOBean();
-        List<TBArea> list=userService.getAllAreas();
-        if(list.size()!=0){
-            baseOBean.setInfo("N01","获取地区信息成功");
-            baseOBean.setContents(list);
+        if(userService.checkUserToken(iBeanOperation)){
+            UserOBean userOBean=userService.getGeneralInfo(iBeanOperation.getAccount());
+            if(userOBean!=null){
+                baseOBean.setInfo("N01","获取总览信息成功");
+                baseOBean.setContents(userOBean);
+            }else {
+                baseOBean.setInfo("E01","用户不存在");
+            }
         }else {
-            baseOBean.setInfo("E01","地区获取失败");
+            baseOBean.setInfo("E01","请重新登陆");
         }
         return baseOBean;
     }

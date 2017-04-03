@@ -4,14 +4,14 @@ package link.imcloud.jrs.db.entities;
  * Created by 44247 on 2016/11/19 0019.
  */
 public class TBArea {
-    private Integer areaId;
+    private String areaId;
     private String areaName;
 
-    public Integer getAreaId() {
+    public String getAreaId() {
         return areaId;
     }
 
-    public void setAreaId(Integer areaId) {
+    public void setAreaId(String areaId) {
         this.areaId = areaId;
     }
 

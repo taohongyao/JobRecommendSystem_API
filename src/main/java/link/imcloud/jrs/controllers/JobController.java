@@ -6,6 +6,7 @@ import link.imcloud.jrs.beans.job.Pager;
 import link.imcloud.jrs.db.dao.Condition;
 import link.imcloud.jrs.db.dao.JobDao;
 import link.imcloud.jrs.services.UserService;
+import org.junit.Test;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +31,7 @@ public class JobController {
     private UserService userService;
 
 
+
     /**
      * 多条件查询（id>funtype=job_name）
      * !(不包括area,recuitment)
@@ -46,6 +48,9 @@ public class JobController {
             baseOBean.setContents(jobDao.selectPage(jobIBean.getJobId()));
 
         }else {
+
+
+            // TODO: 2017/4/1 多条件查询 
             Pager pager=new Pager();
             pager.setPageNum(jobIBean.getPageNum());
             pager.setPageSize(jobIBean.getPageSize());
@@ -58,6 +63,7 @@ public class JobController {
             }else if(jobIBean.getJobName()!=null){
                 list.add(new Condition("job_name",jobIBean.getJobName(),1));
             }
+
             baseOBean.setContents(jobDao.selectByConditions(list,pager));
         }
 
@@ -94,7 +100,7 @@ public class JobController {
     @ResponseBody
     public BaseOBean recommendByUser(@RequestBody Pager pager) throws SQLException {
         BaseOBean baseOBean =new BaseOBean();
-
+            // TODO: 2017/4/1 实现分页推荐  
             baseOBean.setContents(jobDao.selectByFuntype("0100",pager));
             baseOBean.setInfo("N01","推荐组成功");
 

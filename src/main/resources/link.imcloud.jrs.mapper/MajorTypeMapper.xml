@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="link.imcloud.jrs.db.mapper.MajorTypeMapper">
+
+
+    <select id="getAllMajorTypes"  resultMap="majorTypeMap">
+        select * from  major_type
+    </select>
+
+    <resultMap id="majorTypeMap" type="link.imcloud.jrs.db.entities.TBMajorType" >
+        <id property="majorTypeId" column="major_type_id"/>
+        <result property="majorTypeName" column="major_type_name" />
+    </resultMap>
+
+</mapper>

@@ -10,5 +10,7 @@ public interface UserMapper {
     int addUser(TBUser tbUser);
     int alterUser(TBUser tbUser);
     TBUser getUserByAccount(String account);
+    TBUser getUserPasswordByAccount(String account);
+    int alterUserPassword(TBUser tbUser);
 }
 

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="link.imcloud.jrs.db.mapper.FunTypeMapper">
+
+
+    <select id="getAllFunTypes"  resultMap="funtypeMap">
+        select * from  funtype
+    </select>
+
+    <resultMap id="funtypeMap" type="link.imcloud.jrs.db.entities.TBFuntype" >
+        <id property="funtypeId" column="funtype_id"/>
+        <result property="funtypeName" column="funtype_name" />
+    </resultMap>
+
+</mapper>

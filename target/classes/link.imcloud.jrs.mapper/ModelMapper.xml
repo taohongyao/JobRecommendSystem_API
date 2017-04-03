@@ -5,13 +5,13 @@
 
     <insert id="insertModel" parameterType="link.imcloud.jrs.db.entities.TBModel">
         insert into model
-        (user_account,model_one, model_two)
+        (user_account,model_one, model_two,model_three)
         values
-        (#{userAccount},#{modelOne},#{modelTwo})
+        (#{userAccount},#{modelOne},#{modelTwo},#{modelThree})
     </insert>
     <update id="updateModelByUser" parameterType="link.imcloud.jrs.db.entities.TBModel">
         update model set
-            model_one=#{modelOne},model_two=#{modelTwo} where user_account=#{userAccount}
+            model_one=#{modelOne},model_two=#{modelTwo},model_three=#{modelThree} where user_account=#{userAccount}
     </update>
 
     <select id="getModelByUser" parameterType="java.lang.String" resultMap="modleMap">
@@ -23,6 +23,7 @@
         <result property="userAccount" column="user_account" />
         <result property="modelOne" column="model_one"/>
         <result property="modelTwo" column="model_two"/>
+        <result property="modelThree" column="model_three"/>
     </resultMap>
 
 </mapper>

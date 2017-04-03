@@ -8,9 +8,11 @@ import link.imcloud.jrs.beans.user.UserIBean;
 import link.imcloud.jrs.beans.user.UserOBean;
 import link.imcloud.jrs.db.entities.TBArea;
 import link.imcloud.jrs.db.entities.TBModel;
+import link.imcloud.jrs.db.entities.TBResume;
 import link.imcloud.jrs.db.entities.TBUser;
 import link.imcloud.jrs.db.mapper.AreaMapper;
 import link.imcloud.jrs.db.mapper.ModelMapper;
+import link.imcloud.jrs.db.mapper.ResumeMapper;
 import link.imcloud.jrs.db.mapper.UserMapper;
 import link.imcloud.jrs.pool.register.RegisterPool;
 import link.imcloud.jrs.pool.register.RegisterPoolBean;
@@ -37,9 +39,10 @@ public class UserService {
     @Resource
     protected ModelMapper modelMapper;
     @Resource
-    protected UserMapper userMapper;
+    protected ResumeMapper resumeMapper;
     @Resource
-    protected AreaMapper areaMapper;
+    protected UserMapper userMapper;
+
     @Resource
     protected RegisterPool registerPool;
     @Resource
@@ -51,12 +54,50 @@ public class UserService {
     public final static int SMSCODE_ERROR=1;
 
     public boolean checkUserAccountAPassword(String account,String pwd) throws SQLException {
-        TBUser tbUser=userMapper.getUserByAccount(account);
+        TBUser tbUser=userMapper.getUserPasswordByAccount(account);
         logger.debug(">>>>>>>>>> user: "+account +" pwd: "+pwd+" tbUser: "+tbUser);
         if(tbUser==null) return false;
         if(tbUser.getPassword().equals(pwd)) return true;
         return false;
     }
+
+
+    public UserOBean getGeneralInfo(String account){
+        TBUser tbUser=userMapper.getUserByAccount(account);
+        TBModel tbModel=modelMapper.getModelByUser(account);
+        List<TBResume> tbResumes=resumeMapper.getTBResumeByUser(account);
+        UserOBean userOBean=null;
+        if (tbUser != null) {
+            userOBean=new UserOBean();
+            userOBean.setAccount(tbUser.getAccount());
+            userOBean.setEmail(tbUser.getEmail());
+            userOBean.setNickname(tbUser.getNickname());
+            userOBean.setPhone(tbUser.getPhone());
+            userOBean.setSex(tbUser.getSex());
+            userOBean.setPhoto(tbUser.getPhoto());
+            userOBean.setRealname(tbUser.getRealname());
+            userOBean.setMarried(tbUser.getMarried());
+            userOBean.setMajor(tbUser.getMajor());
+            userOBean.setExpect_salary(tbUser.getExpectSalary());
+            userOBean.setExpect_place(tbUser.getExpectPlace());
+            userOBean.setExpect_funtype(tbUser.getExpectFuntype());
+            userOBean.setExpect_companytype(tbUser.getExpectCompanytype());
+            userOBean.setEducational_level(tbUser.getEducationalLevel());
+            userOBean.setBirthday(tbUser.getBirthday());
+            if(tbModel!=null){
+                // TODO: 2017/4/1 模型转换为double
+                userOBean.setModle1(-1.0);
+                userOBean.setModle2(-1.0);
+                userOBean.setModle3(-1.0);
+            }
+            if (tbResumes.size()!=0){
+                userOBean.setResume(tbResumes.get(tbResumes.size()-1).getResumeContext());
+            }
+        }
+
+        return userOBean;
+    }
+
 
     public String login(String account) {
             String token=addIntoUserPool(account);
@@ -86,10 +127,10 @@ public class UserService {
     }
 
     public boolean alterPassword(UserIBean userIBean){
-        TBUser tbUser=userMapper.getUserByAccount(userIBean.getAccount());
+        TBUser tbUser=userMapper.getUserPasswordByAccount(userIBean.getAccount());
         if(tbUser.getPassword().equals(userIBean.getOldPassword())){
             tbUser.setPassword(userIBean.getNewPassword());
-            userMapper.alterUser(tbUser);
+            userMapper.alterUserPassword(tbUser);
             return true;
         }else {
             return false;
@@ -110,8 +151,16 @@ public class UserService {
         tbUser.setNickname(userIBean.getNickname());
         tbUser.setSex(userIBean.getSex());
         tbUser.setArea(userIBean.getArea());
-        tbUser.setAge( userIBean.getAge());
         tbUser.setPhoto(userIBean.getPhoto());
+        tbUser.setBirthday(tbUser.getBirthday());
+        tbUser.setBirthday(userIBean.getBirthday());
+        tbUser.setExpectCompanytype(userIBean.getExpect_companytype());
+        tbUser.setExpectFuntype(userIBean.getExpect_funtype());
+        tbUser.setExpectPlace(userIBean.getExpect_place());
+        tbUser.setExpectSalary(userIBean.getExpect_salary());
+        tbUser.setMajor(userIBean.getMajor());
+        tbUser.setMarried(userIBean.getMarried());
+        tbUser.setRealname(userIBean.getRealname());
         userMapper.alterUser(tbUser);
     }
 
@@ -126,6 +175,16 @@ public class UserService {
             userOBean.setPhone(tbUser.getPhone());
             userOBean.setSex(tbUser.getSex());
             userOBean.setPhoto(tbUser.getPhoto());
+            userOBean.setArea(tbUser.getArea());
+            userOBean.setBirthday(tbUser.getBirthday());
+            userOBean.setEducational_level(tbUser.getBirthday());
+            userOBean.setExpect_companytype(tbUser.getExpectCompanytype());
+            userOBean.setExpect_funtype(tbUser.getExpectFuntype());
+            userOBean.setExpect_place(tbUser.getExpectPlace());
+            userOBean.setExpect_salary(tbUser.getExpectSalary());
+            userOBean.setMajor(tbUser.getMajor());
+            userOBean.setMarried(tbUser.getMarried());
+            userOBean.setRealname(tbUser.getRealname());
 
         }
         return userOBean;
@@ -135,14 +194,23 @@ public class UserService {
         String sms= userIBean.getSmsCode();
         if(checkSmsCode(phone,sms)){
             TBUser user=new TBUser();
-            user.setAccount(phone);
-            user.setPassword(userIBean.getPassword());
-            user.setEmail(userIBean.getEmail());
+            user.setAccount(phone); //
+            user.setPassword(userIBean.getPassword()); //
+            user.setEmail(userIBean.getEmail()); //
             user.setNickname(userIBean.getNickname());
-            user.setPhone(userIBean.getPhone());
-            user.setAge(userIBean.getAge());
-            user.setArea(userIBean.getArea());
-            user.setSex(userIBean.getSex());
+            user.setPhone(userIBean.getPhone());  //
+            user.setArea("0");
+            user.setSex("M");
+            // TODO: 2017/4/2 0002 初始化 ，是否需要加入 简历等信息的初始化
+            user.setBirthday("0");
+            user.setEducationalLevel("0");
+            user.setExpectCompanytype("0");
+            user.setExpectFuntype("0");
+            user.setExpectPlace("0");
+            user.setExpectSalary("0");
+            user.setMajor("0");
+            user.setMarried("0");
+            user.setRealname("0");
             userMapper.addUser(user);
             TBModel tbModel=new TBModel();
             tbModel.setUserAccount(user.getAccount());
@@ -152,8 +220,6 @@ public class UserService {
             return SMSCODE_ERROR;
         }
     }
-
-
 
     private String addIntoRegisterPool(String phone,String smsCode){
         Calendar calendar = Calendar.getInstance();
@@ -207,7 +273,5 @@ public class UserService {
         return false;
     }
 
-    public List<TBArea> getAllAreas(){
-        return  areaMapper.getAllArea();
-    }
+
 }

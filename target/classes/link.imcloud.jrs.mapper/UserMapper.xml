@@ -5,15 +5,30 @@
 
     <insert id="addUser" parameterType="link.imcloud.jrs.db.entities.TBUser">
         insert into users
-        (account, password, nickname,phone,email,sex,area,age,photo)
+        (account, password, nickname,phone,email,sex,area,photo,
+        birthday,realname,major,married,educational_level,
+        expect_salary,expect_place,expect_companytype,expect_funtype)
         values
-        (#{account},#{password},#{nickname}, #{phone},#{email},#{sex},#{area},#{age},#{photo})
+        (#{account},#{password},#{nickname}, #{phone},#{email},#{sex},#{area},#{photo},
+        #{birthday},#{realname},#{major},#{married},#{educationalLevel},
+        #{expectSalary},#{expectPlace},#{expectCompanytype},#{expectFuntype})
     </insert>
+
     <update id="alterUser" parameterType="link.imcloud.jrs.db.entities.TBUser">
         update users set
-            nickname=#{nickname},email=#{email},sex=#{sex},password=#{password},area=#{area},
-            age=#{age}, phone=#{phone},photo=#{photo} where account=#{account}
+            nickname=#{nickname},sex=#{sex},password=#{password},area=#{area},
+            photo=#{photo},birthday=#{birthday},realname=#{realname},major=#{major},married=#{married},educational_level=#{educationalLevel},expect_salary=#{expectSalary},
+            expect_place=#{expectPlace},expect_companytype=#{expectCompanytype},expect_funtype=#{expectFuntype} where account=#{account}
     </update>
+
+    <update id="alterUserPassword" parameterType="link.imcloud.jrs.db.entities.TBUser">
+        update users set
+        password=#{password} where account=#{account}
+    </update>
+
+    <select id="getUserPasswordByAccount" parameterType="java.lang.String" resultMap="userMap">
+        select password,account from  users where account=#{account}
+    </select>
 
     <select id="getUserByAccount" parameterType="java.lang.String" resultMap="userMap">
         select * from  users where account=#{account}
@@ -28,7 +43,16 @@
         <result property="email" column="email"/>
         <result property="sex" column="sex"/>
         <result property="area" column="area"/>
-        <result property="age" column="age"/>
+
+        <result property="birthday" column="birthday"/>
+        <result property="realname" column="realname"/>
+        <result property="major" column="major"/>
+        <result property="married" column="married"/>
+        <result property="educationalLevel" column="educational_level"/>
+        <result property="expectSalary" column="expect_salary"/>
+        <result property="expectPlace" column="expect_place"/>
+        <result property="expectCompanytype" column="expect_companytype"/>
+        <result property="expectFuntype" column="expect_funtype"/>
     </resultMap>
 
 </mapper>

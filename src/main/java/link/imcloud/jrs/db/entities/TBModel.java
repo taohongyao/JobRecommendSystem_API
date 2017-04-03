@@ -8,6 +8,16 @@ public class TBModel {
     private Integer modelId;
     private String modelOne;
     private String modelTwo;
+    private String modelThree;
+
+
+    public String getModelThree() {
+        return modelThree;
+    }
+
+    public void setModelThree(String modelThree) {
+        this.modelThree = modelThree;
+    }
 
     public String getUserAccount() {
         return userAccount;

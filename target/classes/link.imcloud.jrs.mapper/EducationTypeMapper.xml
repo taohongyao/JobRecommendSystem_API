@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="link.imcloud.jrs.db.mapper.EducationTypeMapper">
+
+
+    <select id="getAllEducationTypes"  resultMap="educationTypeMap">
+        select * from  educational_type
+    </select>
+
+    <resultMap id="educationTypeMap" type="link.imcloud.jrs.db.entities.TBEducationType" >
+        <id property="educationalTypeId" column="educational_type_id"/>
+        <result property="educationalTypeName" column="educational_type_name" />
+    </resultMap>
+
+</mapper>

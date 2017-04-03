@@ -15,10 +15,19 @@ public class UserIBean extends IBeanOperation {
     private String smsCode;
     private String email;
     private String sex;
-    private Integer age;
-    private Integer area;
+    private String area;
     private String photo;
 
+    //二期
+    private String birthday;
+    private String realname;
+    private String major;
+    private String married;
+    private String educational_level;
+    private String expect_salary;
+    private String expect_place;
+    private String expect_companytype;
+    private String expect_funtype;
 
     public String getOldPassword() {
         return oldPassword;
@@ -34,30 +43,6 @@ public class UserIBean extends IBeanOperation {
 
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    public Integer getArea() {
-        return area;
-    }
-
-    public void setArea(Integer area) {
-        this.area = area;
-    }
-
-    public String getSmsCode() {
-        return smsCode;
-    }
-
-    public void setSmsCode(String smsCode) {
-        this.smsCode = smsCode;
     }
 
     public String getPassword() {
@@ -84,6 +69,14 @@ public class UserIBean extends IBeanOperation {
         this.phone = phone;
     }
 
+    public String getSmsCode() {
+        return smsCode;
+    }
+
+    public void setSmsCode(String smsCode) {
+        this.smsCode = smsCode;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -100,11 +93,91 @@ public class UserIBean extends IBeanOperation {
         this.sex = sex;
     }
 
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
+
     public String getPhoto() {
         return photo;
     }
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getRealname() {
+        return realname;
+    }
+
+    public void setRealname(String realname) {
+        this.realname = realname;
+    }
+
+    public String getMajor() {
+        return major;
+    }
+
+    public void setMajor(String major) {
+        this.major = major;
+    }
+
+    public String getMarried() {
+        return married;
+    }
+
+    public void setMarried(String married) {
+        this.married = married;
+    }
+
+    public String getEducational_level() {
+        return educational_level;
+    }
+
+    public void setEducational_level(String educational_level) {
+        this.educational_level = educational_level;
+    }
+
+    public String getExpect_salary() {
+        return expect_salary;
+    }
+
+    public void setExpect_salary(String expect_salary) {
+        this.expect_salary = expect_salary;
+    }
+
+    public String getExpect_place() {
+        return expect_place;
+    }
+
+    public void setExpect_place(String expect_place) {
+        this.expect_place = expect_place;
+    }
+
+    public String getExpect_companytype() {
+        return expect_companytype;
+    }
+
+    public void setExpect_companytype(String expect_companytype) {
+        this.expect_companytype = expect_companytype;
+    }
+
+    public String getExpect_funtype() {
+        return expect_funtype;
+    }
+
+    public void setExpect_funtype(String expect_funtype) {
+        this.expect_funtype = expect_funtype;
     }
 }

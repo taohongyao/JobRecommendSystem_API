@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="link.imcloud.jrs.db.mapper.MarriedTypeMapper">
+
+
+    <select id="getAllMarriedTypes"  resultMap="marriedTypeMap">
+        select * from  married_type
+    </select>
+
+    <resultMap id="marriedTypeMap" type="link.imcloud.jrs.db.entities.TBMarriedType" >
+        <id property="marriedTypeId" column="married_type_id"/>
+        <result property="marriedTypeName" column="married_type_name" />
+    </resultMap>
+
+</mapper>
