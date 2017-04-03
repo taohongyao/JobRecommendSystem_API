@@ -22,5 +22,4 @@ public class RegisterPool extends HashMap<String,RegisterPoolBean>{
         }
     }
 
-    // TODO: 2016/8/4 0004 清理垃圾 
 }

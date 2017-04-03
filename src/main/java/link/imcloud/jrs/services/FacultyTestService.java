@@ -86,7 +86,7 @@ public class FacultyTestService {
             }
 
         }
-
+        // TODO: 2017/4/3 0003 每个测试是否有向量
 
         //更新用户模型
         TBModel tbModel=modelMapper.getModelByUser(account);

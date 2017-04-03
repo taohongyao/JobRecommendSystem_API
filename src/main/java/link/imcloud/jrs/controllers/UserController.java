@@ -121,6 +121,7 @@ public class UserController {
         if(!userService.isRegister(account)){
             int smsCode=userService.register(userIBean);
             if(smsCode==userService.REGISTER_SECCESS){
+                userService.register(userIBean);
                 baseOBean.setInfo("N01","注册成功");
             }else {
                 baseOBean.setInfo("E02","注册失败，验证码错误");

@@ -26,9 +26,8 @@ public class ResumeService {
 
     public void insertResume(TBResume resume){
         resume.setUpdateTime(DateUtil.getDateFormatByNowDate());
-
+        // TODO: 2017/4/3 0003 处理简历
         //处理简历
-
         //更新用户模型
 
         resumeMapper.insertTBResume(resume);
@@ -36,7 +35,7 @@ public class ResumeService {
 
     public TBResume getResumeByUser(String account){
         List<TBResume> list=resumeMapper.getTBResumeByUser(account);
-        return list.get(list.size()-1);
+        return list.get(0);
     }
 
 }

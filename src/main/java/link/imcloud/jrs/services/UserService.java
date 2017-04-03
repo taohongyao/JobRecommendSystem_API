@@ -198,7 +198,7 @@ public class UserService {
             user.setPassword(userIBean.getPassword()); //
             user.setEmail(userIBean.getEmail()); //
             user.setNickname(userIBean.getNickname());
-            user.setPhone(userIBean.getPhone());  //
+            user.setPhone("0");  //
             user.setArea("0");
             user.setSex("M");
             // TODO: 2017/4/2 0002 初始化 ，是否需要加入 简历等信息的初始化

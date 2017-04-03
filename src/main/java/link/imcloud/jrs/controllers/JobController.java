@@ -50,7 +50,7 @@ public class JobController {
         }else {
 
 
-            // TODO: 2017/4/1 多条件查询 
+            // TODO: 2017/4/1 查询-多条件查询
             Pager pager=new Pager();
             pager.setPageNum(jobIBean.getPageNum());
             pager.setPageSize(jobIBean.getPageSize());
@@ -100,7 +100,7 @@ public class JobController {
     @ResponseBody
     public BaseOBean recommendByUser(@RequestBody Pager pager) throws SQLException {
         BaseOBean baseOBean =new BaseOBean();
-            // TODO: 2017/4/1 实现分页推荐  
+            // TODO: 2017/4/1 推荐-实现分页推荐
             baseOBean.setContents(jobDao.selectByFuntype("0100",pager));
             baseOBean.setInfo("N01","推荐组成功");
 
